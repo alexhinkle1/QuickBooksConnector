@@ -25,6 +25,7 @@ router.post(
     body('memo').optional().isString().trim(),
     body('depositToAccountFullName').optional().isString().trim().notEmpty(),
     body('paymentMethodFullName').optional().isString().trim().notEmpty(),
+    body('isAutoApply').optional().isBoolean().toBoolean(),
   ],
   validateRequest,
   paymentsController.createPayment

@@ -736,6 +736,7 @@ Request fields:
 | `memo` | string | No | Payment memo. |
 | `depositToAccountFullName` | string | No | Existing QuickBooks account full name. |
 | `paymentMethodFullName` | string | No | Existing QuickBooks payment method full name. |
+| `isAutoApply` | boolean | No | Defaults to `false`. Set `true` to let QuickBooks apply the payment to open transactions automatically. |
 
 Request:
 
@@ -747,7 +748,8 @@ Request:
   "refNumber": "PMT-1",
   "memo": "Payment created by API",
   "depositToAccountFullName": "Undeposited Funds",
-  "paymentMethodFullName": "Check"
+  "paymentMethodFullName": "Check",
+  "isAutoApply": false
 }
 ```
 

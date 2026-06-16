@@ -1,4 +1,4 @@
-const { escapeXml, formatQbDate } = require('../utils/qbxml');
+const { escapeXml, formatQbAmount, formatQbDate } = require('../utils/qbxml');
 
 const envelope = (body) => `<?xml version="1.0" encoding="utf-8"?>
 <?qbxml version="16.0"?>
@@ -64,8 +64,8 @@ const transactionLines = (lineTag, lines = []) => lines.map((line) => `<${lineTa
     ${listRef('ItemRef', line.itemFullName)}
     ${tag('Desc', line.description)}
     ${tag('Quantity', line.quantity)}
-    ${tag('Rate', line.rate)}
-    ${tag('Amount', line.amount)}
+    ${tag('Rate', formatQbAmount(line.rate))}
+    ${tag('Amount', formatQbAmount(line.amount))}
   </${lineTag}>`).join('\n');
 
 const transactionAdd = (requestName, addName, lineTag, txn) => envelope(`    <${requestName} requestID="1">
@@ -123,10 +123,11 @@ const builders = {
         ${listRef('CustomerRef', payment.customerFullName)}
         ${tag('TxnDate', formatQbDate(payment.txnDate))}
         ${tag('RefNumber', payment.refNumber)}
-        ${tag('TotalAmount', payment.totalAmount)}
+        ${tag('TotalAmount', formatQbAmount(payment.totalAmount))}
         ${listRef('PaymentMethodRef', payment.paymentMethodFullName)}
-        ${listRef('DepositToAccountRef', payment.depositToAccountFullName)}
         ${tag('Memo', payment.memo)}
+        ${listRef('DepositToAccountRef', payment.depositToAccountFullName)}
+        ${tag('IsAutoApply', payment.isAutoApply === undefined ? false : payment.isAutoApply)}
       </ReceivePaymentAdd>
     </ReceivePaymentAddRq>`),
   'item.query': (filters = {}) => envelope(`    <ItemQueryRq requestID="1">
@@ -138,7 +139,7 @@ const builders = {
         ${tag('Name', item.name)}
         <SalesOrPurchase>
           ${tag('Desc', item.description)}
-          ${tag('Price', item.price)}
+          ${tag('Price', formatQbAmount(item.price))}
           ${listRef('AccountRef', item.incomeAccountFullName)}
         </SalesOrPurchase>
       </ItemServiceAdd>
