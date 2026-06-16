@@ -9,6 +9,10 @@ const errorHandler = (error, req, res, next) => {
 
   const statusCode = error instanceof ApiError ? error.statusCode : 500;
   const message = error instanceof ApiError ? error.message : 'QuickBooks request failed';
+  const reason = error instanceof ApiError
+    ? error.reason
+    : (error.message || 'Unexpected server error');
+  const details = error instanceof ApiError ? error.details : undefined;
 
   logger.error('Request failed', {
     method: req.method,
@@ -25,7 +29,9 @@ const errorHandler = (error, req, res, next) => {
   res.status(statusCode).json({
     error: {
       message,
+      reason,
       statusCode,
+      ...(details ? { details } : {}),
     },
   });
 };

@@ -102,10 +102,10 @@ const builders = {
         ${tag('CompanyName', customer.companyName)}
         ${tag('FirstName', customer.firstName)}
         ${tag('LastName', customer.lastName)}
-        ${tag('Phone', customer.phone)}
-        ${tag('Email', customer.email)}
         ${addressBlock('BillAddress', customer.billAddress)}
         ${addressBlock('ShipAddress', customer.shipAddress)}
+        ${tag('Phone', customer.phone)}
+        ${tag('Email', customer.email)}
       </CustomerAdd>
     </CustomerAddRq>`),
   'estimate.query': (filters) => transactionQuery('EstimateQueryRq', filters),

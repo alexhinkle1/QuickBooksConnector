@@ -5,7 +5,7 @@ const ApiError = require('../utils/ApiError');
 const qbxmlBuilder = require('../qbxml/builders');
 const qbxmlParser = require('../qbxml/parser');
 const mappings = require('../mappings');
-const { classifyQuickBooksError } = require('../utils/quickBooksErrors');
+const { summarizeQuickBooksError } = require('../utils/quickBooksErrors');
 
 class QuickBooksService {
   constructor() {
@@ -111,7 +111,8 @@ class QuickBooksService {
           stack: error.stack,
         },
       });
-      throw new ApiError(502, classifyQuickBooksError(error));
+      const summary = summarizeQuickBooksError(error);
+      throw new ApiError(502, summary.message, { operation }, summary.reason);
     } finally {
       if (requestProcessor && ticket) {
         try {
@@ -146,7 +147,8 @@ class QuickBooksService {
     }
 
     if (statusCode && statusCode !== '0') {
-      throw new Error(`QuickBooks status ${statusCode}`);
+      const statusMessage = response.$ && response.$.statusMessage;
+      throw new Error(`QuickBooks status ${statusCode}: ${statusMessage || 'No status message returned'}`);
     }
   }
 }
