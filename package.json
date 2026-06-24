@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "check": "node --check src/server.js && node --check src/app.js && node --check src/services/QuickBooksService.js && node --check src/qbxml/builders.js && node --check src/mappings/index.js"
+    "check": "node --check src/server.js && node --check src/app.js && node --check src/services/QuickBooksService.js && node --check src/qbxml/builders.js && node --check src/mappings/index.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:restart": "pm2 restart quickbooks-on-prem-api",
+    "pm2:stop": "pm2 stop quickbooks-on-prem-api",
+    "pm2:logs": "pm2 logs quickbooks-on-prem-api"
   },
   "keywords": [],
   "author": "",

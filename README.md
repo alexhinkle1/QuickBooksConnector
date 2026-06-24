@@ -9,7 +9,7 @@ Make Cloud -> Make On-Prem Agent -> Node.js API -> QuickBooks Desktop SDK (QBXML
 Base URL:
 
 ```text
-http://localhost:3000
+http://localhost:3001
 ```
 
 This service is only responsible for QuickBooks Desktop integration. It does not contain Salesforce or other external-system business logic.
@@ -54,7 +54,7 @@ $env:Path = 'C:\Program Files\nodejs;' + $env:Path
 Create `.env` from `.env.example`:
 
 ```env
-PORT=3000
+PORT=3001
 QB_APP_NAME=QuickBooks Desktop Adapter
 QB_COMPANY_FILE=
 LOG_LEVEL=info
@@ -64,7 +64,7 @@ LOG_LEVEL=info
 
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |
-| `PORT` | No | `3000` | Local HTTP port for the REST API. |
+| `PORT` | No | `3001` | Local HTTP port for the REST API. |
 | `QB_APP_NAME` | No | `QuickBooks Desktop Adapter` | Application name shown in QuickBooks Integrated Application permissions. |
 | `QB_COMPANY_FILE` | No | empty | Full path to a `.qbw` company file. Leave empty to connect to the currently open QuickBooks company. |
 | `LOG_LEVEL` | No | `info` | Winston log level. Use `debug` to log QBXML request/response payloads. |
@@ -110,7 +110,7 @@ npm run dev
 Health check:
 
 ```powershell
-curl.exe http://localhost:3000/health
+curl.exe http://localhost:3001/health
 ```
 
 ## QuickBooks Authorization Checklist
@@ -825,7 +825,7 @@ Response:
 Use the Make On-Prem Agent to call:
 
 ```text
-http://localhost:3000
+http://localhost:3001
 ```
 
 Typical Make HTTP module settings:
@@ -833,7 +833,7 @@ Typical Make HTTP module settings:
 | Setting | Value |
 | --- | --- |
 | Method | `GET` or `POST` |
-| URL | `http://localhost:3000/customers` |
+| URL | `http://localhost:3001/customers` |
 | Body type | Raw JSON for POST endpoints |
 | Headers | `Content-Type: application/json` |
 
